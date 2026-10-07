@@ -23,14 +23,17 @@ class SaleSubscription(models.Model):
         if not mandate:
             return False
         invoices = self.invoice_ids.filtered(lambda i: i.invoice_date == date_ref)
-        if not invoices and date_ref == self.recurring_next_date:
+        if not invoices and date_ref >= self.recurring_next_date:
             self.generate_invoice()
-        unpaid_invoice = self.invoice_ids.filtered(
-            lambda i: i.invoice_date == date_ref
+        unpaid_invoices = self.invoice_ids.filtered(
+            lambda i: (i.invoice_date and i.invoice_date <= date_ref)
             and i.payment_state == "not_paid"  # TODO: Do we need to check here on date?
         )
-        if not unpaid_invoice:
+        if not unpaid_invoices:
             return False
+        unpaid_invoice = unpaid_invoices.sorted(
+            key=lambda i: (i.invoice_date, i.id), reverse=True
+        )[:1]
         payment_transaction_obj._process_payment_provider_recurring_payment(
             self, unpaid_invoice
         )
