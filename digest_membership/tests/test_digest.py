@@ -35,10 +35,8 @@ class TestDigestMembership(TransactionCase):
                 self.digest._check_kpi_access()
 
     def test_kpi_membership_new_members(self):
-        membership_line = self.env["membership.membership_line"]
-
         with patch.object(
-            type(membership_line),
+            type(self.env["res.partner"]),
             "search_count",
             return_value=1,
         ):

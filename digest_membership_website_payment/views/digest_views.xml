@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="digest_digest_view_form_membership_donations" model="ir.ui.view">
-        <field name="name">digest.digest.view.form.inherit.membership.donations</field>
+    <record id="digest_digest_view_form_membership_website_payment" model="ir.ui.view">
+        <field name="name">digest.digest.view.form.inherit.membership.website.payment</field>
         <field name="model">digest.digest</field>
         <field name="inherit_id" ref="digest_membership.digest_digest_view_form_membership" />
         <field name="arch" type="xml">
@@ -11,3 +11,4 @@
         </field>
     </record>
 </odoo>
+

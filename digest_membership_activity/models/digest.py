@@ -17,15 +17,11 @@ class Digest(models.Model):
         for record in self:
             start, end, company = record._get_kpi_compute_parameters()
 
-            if "membership.activity" not in self.env:
-                record.kpi_membership_activity_value = 0
-                continue
-
             record.kpi_membership_activity_value = self.env[
                 "membership.activity"
             ].search_count(
                 [
                     ("date", ">=", start),
-                    ("date", "<", end),
+                    ("date", "<=", end),
                 ]
             )

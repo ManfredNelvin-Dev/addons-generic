@@ -18,16 +18,17 @@ class Digest(models.Model):
 
     def _compute_kpi_membership_new_members_value(self):
         self._check_kpi_access()
-        MembershipLine = self.env["membership.membership_line"]
 
         for record in self:
             start, end, company = record._get_kpi_compute_parameters()
-            record.kpi_membership_new_members_value = MembershipLine.search_count(
+
+            record.kpi_membership_new_members_value = self.env[
+                "res.partner"
+            ].search_count(
                 [
                     ("company_id", "=", company.id),
-                    ("date", ">=", fields.Date.to_date(start)),
-                    ("date", "<=", fields.Date.to_date(end)),
-                    ("state", "in", ["invoiced", "paid", "free"]),
+                    ("membership_start", ">=", fields.Date.to_date(start)),
+                    ("membership_start", "<=", fields.Date.to_date(end)),
                 ]
             )
 

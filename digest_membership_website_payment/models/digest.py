@@ -24,10 +24,9 @@ class Digest(models.Model):
         return [
             ("company_id", "=", company.id),
             ("create_date", ">=", start),
-            ("create_date", "<", end),
+            ("create_date", "<=", end),
             ("state", "=", "done"),
             ("is_donation", "=", True),
-            ("partner_id.membership_state", "in", ["invoiced", "paid", "free"]),
         ]
 
     def _compute_kpi_membership_donations_amount(self):
@@ -41,10 +40,6 @@ class Digest(models.Model):
 
         for record in self:
             start, end, company = record._get_kpi_compute_parameters()
-
-            if "is_donation" not in payment_transaction._fields:
-                record.kpi_membership_donations_amount_value = 0.0
-                continue
 
             domain = self._get_donation_domain(company, start, end)
             transactions = payment_transaction.search(domain)
@@ -60,10 +55,6 @@ class Digest(models.Model):
 
         for record in self:
             start, end, company = record._get_kpi_compute_parameters()
-
-            if "is_donation" not in payment_transaction._fields:
-                record.kpi_membership_donations_value = 0
-                continue
 
             domain = self._get_donation_domain(company, start, end)
 

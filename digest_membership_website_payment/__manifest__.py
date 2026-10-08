@@ -1,7 +1,7 @@
 # Copyright 2026 Onestein
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 {
-    "name": "Digest Membership Donations",
+    "name": "Digest Membership Website Payment",
     "summary": "Donation KPIs for Digest Emails",
     "author": "CIT Services, Onestein",
     "website": "https://onestein.nl",
@@ -10,10 +10,11 @@
     "license": "AGPL-3",
     "depends": [
         "digest_membership",
-        "payment",
+        "website_payment",
     ],
     "data": [
         "views/digest_views.xml",
     ],
     "installable": True,
 }
+
