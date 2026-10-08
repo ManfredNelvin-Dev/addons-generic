@@ -8,8 +8,6 @@
             <xpath expr="//group[@name='custom']" position="before">
                 <group string="Membership" name="kpis_membership">
                     <field name="kpi_membership_new_members" />
-                    <field name="kpi_membership_donations" />
-                    <field name="kpi_membership_activity" />
                 </group>
             </xpath>
         </field>

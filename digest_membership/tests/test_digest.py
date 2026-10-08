@@ -21,9 +21,6 @@ class TestDigestMembership(TransactionCase):
                 "periodicity": "daily",
                 "company_id": cls.company.id,
                 "kpi_membership_new_members": True,
-                "kpi_membership_donations": True,
-                "kpi_membership_donations_amount": True,
-                "kpi_membership_activity": True,
             }
         )
 
@@ -38,8 +35,10 @@ class TestDigestMembership(TransactionCase):
                 self.digest._check_kpi_access()
 
     def test_kpi_membership_new_members(self):
+        membership_line = self.env["membership.membership_line"]
+
         with patch.object(
-            type(self.env["res.partner"]),
+            type(membership_line),
             "search_count",
             return_value=1,
         ):
@@ -49,23 +48,3 @@ class TestDigestMembership(TransactionCase):
                 self.digest.kpi_membership_new_members_value,
                 1,
             )
-
-    def test_kpi_membership_donations_value(self):
-        payment_transaction = self.env["payment.transaction"]
-
-        with patch.dict(
-            payment_transaction._fields,
-            {"is_donation": object()},
-            clear=False,
-        ):
-            with patch.object(
-                type(payment_transaction),
-                "search_count",
-                return_value=5,
-            ):
-                self.digest._compute_kpi_membership_donations_value()
-
-                self.assertEqual(
-                    self.digest.kpi_membership_donations_value,
-                    5,
-                )
