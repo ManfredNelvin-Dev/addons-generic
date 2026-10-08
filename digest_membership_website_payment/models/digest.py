@@ -27,6 +27,7 @@ class Digest(models.Model):
             ("create_date", "<=", end),
             ("state", "=", "done"),
             ("is_donation", "=", True),
+            ("partner_id.membership_state", "!=", "none"),
         ]
 
     def _compute_kpi_membership_donations_amount(self):
